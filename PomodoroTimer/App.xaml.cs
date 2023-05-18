@@ -1,12 +1,16 @@
 ﻿using PomodoroTimer.Services;
 using PomodoroTimer.ViewModels;
+using System.Runtime.InteropServices;
+using System;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PomodoroTimer
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
+    /// 
     public partial class App : Application
     {
         public App() { }

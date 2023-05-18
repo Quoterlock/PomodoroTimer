@@ -13,19 +13,12 @@ namespace PomodoroTimer.Services
     /// </summary>
     public class Navigator
     {
-        // current view model
-#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-        private ViewModelBase? currentViewModel;
-#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
-        // when the CurrentViewModelChanged has changed event
-#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-        public event Action? CurrentViewModelChanged;
-#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+        private ViewModelBase currentViewModel;
 
-#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-        public ViewModelBase? CurrentViewModel
-#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+        public event Action CurrentViewModelChanged;
+
+        public ViewModelBase CurrentViewModel
         {
             get => currentViewModel;
             set 
