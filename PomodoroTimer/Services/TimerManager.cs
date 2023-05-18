@@ -1,14 +1,5 @@
-﻿using PomodoroTimer.Commands;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Permissions;
-using System.Text;
+﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace PomodoroTimer.Services
 {
@@ -16,44 +7,79 @@ namespace PomodoroTimer.Services
     {
         private Timer timer;
 
-        private int remainingTime;
+        protected int remainingTime;
 
         public event Action TimerTick;
 
         public TimerManager() {
+            // none
         }
 
+        /////////// METHODS ///////////
+        /// <summary>
+        /// Start timer on time method
+        /// </summary>
+        /// <param name="time">time (seconds)</param>
         public void Start(int time)
         {
             // устанавливаем метод обратного вызова
-            TimerCallback tm = new TimerCallback(Count);
+            TimerCallback timerCallback = new TimerCallback(Count);
             Console.WriteLine("Timer Started...");
-            // создаем таймер
-            timer = new Timer(tm, time, 0, 1000);
+            
+            // set timer
+            remainingTime = time;
+            // run timer with this as a object param
+            timer = new Timer(timerCallback, this, 0, 1000);
         }
 
+        /// <summary>
+        /// Method that is called every timer tick
+        /// </summary>
+        /// <param name="obj"></param>
+        static void Count(object obj)
+        {
+            // Cast parent object
+            TimerManager _this = (TimerManager)obj;
+
+            // reduce time
+            _this.remainingTime--;
+
+            // log
+            Console.WriteLine("Tick..." + _this.remainingTime);
+            
+            // if time is 0 -> stop this timer
+            if (_this.remainingTime == 0) _this.Stop();
+        }
+
+        /// <summary>
+        /// Stop timer method
+        /// </summary>
         public void Stop()
         {
             timer.Dispose();
         }
 
-        static void Count(object obj)
-        {
-            Console.WriteLine("Tick...");
-        }
-
+        /// <summary>
+        /// Method that inform
+        /// all event subscribers
+        /// about timer tick
+        /// </summary>
         private void OnTimerTick()
         {
             TimerTick?.Invoke();
         }
 
+        ////////// PROPERTIES //////////
         public int RemainingTime
         {
             get => remainingTime;
             set
             {
-                remainingTime = value;
-                OnTimerTick();
+                if(remainingTime != value)
+                {
+                    remainingTime = value;
+                    OnTimerTick(); // alert all subs
+                }
             }
         }
 

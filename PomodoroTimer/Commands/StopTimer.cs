@@ -11,6 +11,7 @@ namespace PomodoroTimer.Commands
     {
         public override void Execute(object parameter)
         {
+            // stop timer
             TimerSingleton.get().Stop();
         }
     }

@@ -1,11 +1,4 @@
 ﻿using PomodoroTimer.Commands;
-using PomodoroTimer.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PomodoroTimer.ViewModels
@@ -16,7 +9,11 @@ namespace PomodoroTimer.ViewModels
 
         int currentTime;
         public HomeViewModel() {
+
+            // temp duration
             timerDuration = 5;
+   
+            // commands
             Start = new StartTimer(this);
             Stop = new StopTimer();
         }
