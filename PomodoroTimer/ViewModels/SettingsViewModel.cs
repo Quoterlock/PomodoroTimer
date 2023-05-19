@@ -21,6 +21,7 @@ namespace PomodoroTimer.ViewModels
         public SettingsViewModel() {
 
             soundPath = Properties.Settings.Default.sound;
+
             workTime = Properties.Settings.Default.workTime.ToString();
             restTime = Properties.Settings.Default.restTime.ToString();
             longRestTime = Properties.Settings.Default.longRestTime.ToString();
@@ -68,8 +69,8 @@ namespace PomodoroTimer.ViewModels
             }
         }
 
-        public ICommand Save;
-        public ICommand Back;
+        public ICommand Save { get; }
+        public ICommand Back { get; }
             
         private void saveSettings()
         {
@@ -79,12 +80,12 @@ namespace PomodoroTimer.ViewModels
                 Properties.Settings.Default.restTime = int.Parse(restTime);
                 Properties.Settings.Default.longRestTime = int.Parse(longRestTime);
                 Properties.Settings.Default.sound = soundPath;
+                MessageBox.Show("Saved!");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
-           
+            }           
         }
 
     }
