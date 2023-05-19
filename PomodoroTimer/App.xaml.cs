@@ -28,6 +28,10 @@ namespace PomodoroTimer
                 DataContext = new MainViewModel()
             };
 
+            // set start window size 250x200
+            MainWindow.Width = 250;
+            MainWindow.Height = 200;
+            // open window
             MainWindow.Show();
 
             base.OnStartup(e);

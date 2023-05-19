@@ -35,7 +35,12 @@ namespace PomodoroTimer.Commands
         /// </summary>
         private void TimerTick()
         {
-            viewModel.CurrentTime = TimerSingleton.get().RemainingTime;
+            int time = TimerSingleton.get().RemainingTime;
+            if(time <= 0) {
+                Player soundPlayer = new Player();
+                soundPlayer.play();
+            }
+            viewModel.CurrentTime = time/60 + ":" + time%60;
         }
     }
 }

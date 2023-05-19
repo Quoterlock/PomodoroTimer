@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PomodoroTimer.Views"
              xmlns:viewmodels="clr-namespace:PomodoroTimer.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:HomeViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="400">
+             d:DesignHeight="200" d:DesignWidth="300">
     <Grid>
 
         <Grid>
@@ -14,7 +14,6 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="24"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -22,9 +21,20 @@
                 <RowDefinition Height="24"/>
             </Grid.RowDefinitions>
 
-            <Label Content="{Binding CurrentTime}" Grid.ColumnSpan="4"/>
-            <Button Content="Start" Command="{Binding Start}" Grid.Column="1" Grid.Row="2"/>
+            <Label Content="{Binding CurrentTime}"
+                   Grid.ColumnSpan="4"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="70"/>
+            
+            <Button Content="Start" Command="{Binding Start}" Grid.Column="0" Grid.Row="1"/>
             <Button Content="Stop" Command="{Binding Stop}" Grid.Column="1" Grid.Row="1"/>
+            <Button Content="Settings" Command="{Binding ToSetting}" Grid.Column="2" Grid.Row="1"/>
+
+            <Button Content="Rest" Command="{Binding SetRest}" Grid.Column="1" Grid.Row="2"/>
+            <Button Content="Long rest" Command="{Binding SetLongRest}" Grid.Column="2" Grid.Row="2"/>
+            <Button Content="Work" Command="{Binding SetWork}" Grid.Column="0" Grid.Row="2"/>
+            
         </Grid>
 
     </Grid>

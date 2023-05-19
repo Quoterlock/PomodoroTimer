@@ -1,4 +1,5 @@
-﻿using PomodoroTimer.Commands;
+﻿using GalaSoft.MvvmLight.Command;
+using PomodoroTimer.Commands;
 using System.Windows.Input;
 
 namespace PomodoroTimer.ViewModels
@@ -7,19 +8,24 @@ namespace PomodoroTimer.ViewModels
     {
         int timerDuration;
 
-        int currentTime;
+        string currentTime;
         public HomeViewModel() {
 
             // temp duration
-            timerDuration = 5;
-   
+            currentTime = "0:0";
+            timerDuration = 1;
+
             // commands
             Start = new StartTimer(this);
             Stop = new StopTimer();
+            ToSetting = new NavToSettings();
+            SetWork = new RelayCommand(setWorkTime);
+            SetRest = new RelayCommand(setRestTime);
+            SetLongRest = new RelayCommand(setLongRestTime);
         }
 
 
-        public int CurrentTime
+        public string CurrentTime
         {
             get => currentTime;
             set
@@ -47,5 +53,26 @@ namespace PomodoroTimer.ViewModels
 
         public ICommand Start { get;  }
         public ICommand Stop { get; }
+        public ICommand ToSetting { get; }
+        public ICommand SetWork { get; }
+        public ICommand SetRest { get; }
+        public ICommand SetLongRest { get; }
+
+        /////// METHODS ///////
+        private void setWorkTime()
+        {
+            timerDuration = Properties.Settings.Default.workTime * 60;
+        }
+
+        private void setRestTime()
+        {
+            timerDuration = Properties.Settings.Default.restTime * 60;
+        }
+
+        private void setLongRestTime()
+        {
+            timerDuration = Properties.Settings.Default.longRestTime * 60;
+        }
+
     }
 }
