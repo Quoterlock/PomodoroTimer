@@ -37,7 +37,14 @@ namespace PomodoroTimer.Commands
         {
             int time = TimerSingleton.get().RemainingTime;
             if(time <= 0) {
+                if(viewModel.isWorkTimer)
+                {
+                    Statistic.addToDate(
+                    new Models.PomodoroModel { TodayTime = viewModel.TimerDuration, TodayCount = 1 }, DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
+                }
+
                 Player soundPlayer = new Player();
+                soundPlayer.setSong(Properties.Settings.Default.sound);
                 soundPlayer.play();
             }
             viewModel.CurrentTime = time/60 + ":" + time%60;

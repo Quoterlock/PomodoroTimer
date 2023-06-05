@@ -23,5 +23,10 @@ namespace PomodoroTimer.Services
             player.SoundLocation = sound;
             player.Play();
         }
+
+        public void setSong(string songPath)
+        {
+            sound = songPath;
+        }
     }
 }

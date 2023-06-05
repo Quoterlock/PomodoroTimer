@@ -33,6 +33,7 @@
         </StackPanel>
         <StackPanel Grid.Row="4" Orientation="Horizontal">
             <TextBox Width="100" Text="{Binding SoundPath}"/>
+            <Button Width="30" Content="..." Command="{Binding ChooseFile}"/>
             <Label Content="Sound path (sec)"/>
         </StackPanel>
         <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">

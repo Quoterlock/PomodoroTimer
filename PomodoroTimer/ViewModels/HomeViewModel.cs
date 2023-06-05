@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using PomodoroTimer.Commands;
+using PomodoroTimer.Views;
 using System.Windows.Input;
 
 namespace PomodoroTimer.ViewModels
@@ -17,11 +18,12 @@ namespace PomodoroTimer.ViewModels
 
             // commands
             Start = new StartTimer(this);
-            Stop = new StopTimer();
+            Stop = new StopTimer(this);
             ToSetting = new NavToSettings();
             SetWork = new RelayCommand(setWorkTime);
             SetRest = new RelayCommand(setRestTime);
             SetLongRest = new RelayCommand(setLongRestTime);
+            ToStats = new RelayCommand(openStats);
         }
 
 
@@ -51,9 +53,12 @@ namespace PomodoroTimer.ViewModels
             }
         }
 
+        public bool isWorkTimer { get; set; }
+
         public ICommand Start { get;  }
         public ICommand Stop { get; }
         public ICommand ToSetting { get; }
+        public ICommand ToStats { get; }
         public ICommand SetWork { get; }
         public ICommand SetRest { get; }
         public ICommand SetLongRest { get; }
@@ -62,17 +67,25 @@ namespace PomodoroTimer.ViewModels
         private void setWorkTime()
         {
             timerDuration = Properties.Settings.Default.workTime * 60;
+            isWorkTimer = true;
         }
 
         private void setRestTime()
         {
             timerDuration = Properties.Settings.Default.restTime * 60;
+            isWorkTimer = false;
         }
 
         private void setLongRestTime()
         {
             timerDuration = Properties.Settings.Default.longRestTime * 60;
+            isWorkTimer = false;
         }
 
+        private void openStats()
+        {
+            StatisticView window = new StatisticView();
+            window.Show();
+        }
     }
 }

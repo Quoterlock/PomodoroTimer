@@ -29,8 +29,14 @@
             
             <Button Content="Start" Command="{Binding Start}" Grid.Column="0" Grid.Row="1"/>
             <Button Content="Stop" Command="{Binding Stop}" Grid.Column="1" Grid.Row="1"/>
-            <Button Content="Settings" Command="{Binding ToSetting}" Grid.Column="2" Grid.Row="1"/>
-
+            <Grid Grid.Row="1" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Set" Command="{Binding ToSetting}" Grid.Column="1"/>
+                <Button Content="Stats" Command="{Binding ToStats}"/>
+            </Grid>
             <Button Content="Rest" Command="{Binding SetRest}" Grid.Column="1" Grid.Row="2"/>
             <Button Content="Long rest" Command="{Binding SetLongRest}" Grid.Column="2" Grid.Row="2"/>
             <Button Content="Work" Command="{Binding SetWork}" Grid.Column="0" Grid.Row="2"/>

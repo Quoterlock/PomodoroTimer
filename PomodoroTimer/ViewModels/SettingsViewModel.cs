@@ -1,12 +1,11 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using Microsoft.Win32;
 using PomodoroTimer.Commands;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Forms;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
 namespace PomodoroTimer.ViewModels
 {
@@ -27,6 +26,7 @@ namespace PomodoroTimer.ViewModels
             longRestTime = Properties.Settings.Default.longRestTime.ToString();
 
             Save = new RelayCommand(saveSettings);
+            ChooseFile = new RelayCommand(selectSongPath);
             Back = new NavToHome();
         }
 
@@ -71,7 +71,8 @@ namespace PomodoroTimer.ViewModels
 
         public ICommand Save { get; }
         public ICommand Back { get; }
-            
+        public ICommand ChooseFile { get; }
+
         private void saveSettings()
         {
             try
@@ -80,12 +81,36 @@ namespace PomodoroTimer.ViewModels
                 Properties.Settings.Default.restTime = int.Parse(restTime);
                 Properties.Settings.Default.longRestTime = int.Parse(longRestTime);
                 Properties.Settings.Default.sound = soundPath;
-                MessageBox.Show("Saved!");
+                System.Windows.MessageBox.Show("Saved!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }           
+        }
+
+        private void selectSongPath()
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.InitialDirectory = ".\\Sounds";
+                openFileDialog.Filter = "song(*.wav)|*.wav|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+                // if file was selected
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Properties.Settings.Default.sound = openFileDialog.FileName;
+                    Properties.Settings.Default.Save();
+                    SoundPath = openFileDialog.FileName;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+
         }
 
     }

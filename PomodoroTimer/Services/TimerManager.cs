@@ -59,7 +59,10 @@ namespace PomodoroTimer.Services
         /// </summary>
         public void Stop()
         {
-            timer.Dispose();
+            if(timer != null)
+            {
+                timer.Dispose();
+            }
         }
 
         /// <summary>

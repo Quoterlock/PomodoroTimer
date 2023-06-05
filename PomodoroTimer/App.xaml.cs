@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Collections.Specialized;
 
 namespace PomodoroTimer
 {
@@ -22,7 +23,6 @@ namespace PomodoroTimer
 
             // load global data
             // load settings
-
             MainWindow = new MainWindow()
             {
                 DataContext = new MainViewModel()

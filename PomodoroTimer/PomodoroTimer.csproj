@@ -53,6 +53,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -79,8 +80,10 @@
     <Compile Include="Commands\NavToSettings.cs" />
     <Compile Include="Commands\StartTimer.cs" />
     <Compile Include="Commands\StopTimer.cs" />
+    <Compile Include="Models\Pomodoro.cs" />
     <Compile Include="Services\Logger.cs" />
     <Compile Include="Services\SoundPlayer.cs" />
+    <Compile Include="Services\Statistic.cs" />
     <Compile Include="Services\TimerManager.cs" />
     <Compile Include="Services\TimerSingleton.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
@@ -88,6 +91,9 @@
     <Compile Include="Services\Navigator.cs" />
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatisticView.xaml.cs">
+      <DependentUpon>StatisticView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\HomeView.xaml">
       <SubType>Designer</SubType>
@@ -110,6 +116,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -144,7 +154,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Folder Include="Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
