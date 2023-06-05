@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PomodoroTimer.Commands
 {
@@ -45,7 +46,13 @@ namespace PomodoroTimer.Commands
 
                 Player soundPlayer = new Player();
                 soundPlayer.setSong(Properties.Settings.Default.sound);
-                soundPlayer.play();
+                try
+                {
+                    soundPlayer.play();
+                } catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
             viewModel.CurrentTime = time/60 + ":" + time%60;
         }
