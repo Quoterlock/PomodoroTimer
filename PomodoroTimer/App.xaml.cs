@@ -29,8 +29,8 @@ namespace PomodoroTimer
             };
 
             // set start window size 250x200
-            MainWindow.Width = 250;
-            MainWindow.Height = 200;
+            MainWindow.Width = 300;
+            MainWindow.Height = 220;
             // open window
             MainWindow.Show();
 

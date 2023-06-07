@@ -1,19 +1,11 @@
-﻿using PomodoroTimer.Models;
+﻿using PersonalBudget.Modules;
+using PomodoroTimer.Models;
 using PomodoroTimer.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PomodoroTimer.Views
 {
@@ -26,45 +18,81 @@ namespace PomodoroTimer.Views
         public string TodayPomodoros { get; set; }
         public string TodayTime { get; set; }
 
-        private class DataItemModel 
-        {
-            public string Sign { get; set; }
-            public string Date { get; set; }
-            public string Time { get; set; }
-            public string Count { get; set; }
-        }
-
         public StatisticView()
         {
             InitializeComponent();
+
+            // show total time
             totalTime.Content = "Total time: " + secToFormat(Statistic.getTotalTime());
-            
-            //List<PomodoroModel> list = new List<PomodoroModel>();
+
             // get all records
+            List<DataItemModel> items = new List<DataItemModel>();
             foreach(string file in Directory.GetFiles(".\\Data"))
             {
+                // get file
                 FileInfo info = new FileInfo(file);
                 PomodoroModel model = Statistic.getByName(info.Name);
-                daysList.Items.Add( new DataItemModel {
-                    Sign = "=", 
+                // add info to list
+                items.Add( new DataItemModel {
                     Date = info.Name.Replace(".bin", ""), 
                     Time = secToFormat(model.TodayTime),
                     Count = model.TodayCount.ToString() }
                 );
             }
+
+            // sort records by date
+            items = Sorter.sortByDate(items);
+
+            // add new items to datagrid
+            foreach (var item in items) daysList.Items.Add(item);
+
+            // load today info
+            if(File.Exists(".\\Data\\" + DateTime.Now.ToString("dd-MM-yyyy") + ".bin"))
+            {
+                // get info object
+                PomodoroModel today = Statistic.getByName(DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
+                // show in UI
+                todayCount.Content = "Today pomodoros: " + today.TodayCount;
+                todayTime.Content = "Today time: " + secToFormat(today.TodayTime);
+            }
+            else
+            {
+                // set default values
+                todayCount.Content = "Today pomodoros: 0";
+                todayTime.Content = "Today time: 0";
+            }
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
+        /// <summary>
+        /// Convert count of seconds to formar "xx hours xx min xx sec"
+        /// </summary>
+        /// <param name="secs">seconds count</param>
+        /// <returns>formated string</returns>
         private string secToFormat(int secs)
         {
             int h = secs / 3600;
             int min = (secs % 3600) / 60;
             int sec = (secs % 3600) % 60;
-            return $"{h} hours, {min} min, {sec} sec";
+            return $"{h} hours {min} min {sec} sec";
+        }
+
+        /// <summary>
+        /// Class to store data rows
+        /// </summary>
+        public class DataItemModel
+        {
+            public string Date { get; set; }
+            public string Time { get; set; }
+            public string Count { get; set; }
+        }
+
+        /// <summary>
+        /// Back button click event
+        /// </summary>
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

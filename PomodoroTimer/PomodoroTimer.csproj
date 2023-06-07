@@ -82,6 +82,7 @@
     <Compile Include="Commands\StopTimer.cs" />
     <Compile Include="Models\Pomodoro.cs" />
     <Compile Include="Services\Logger.cs" />
+    <Compile Include="Services\Sorter.cs" />
     <Compile Include="Services\SoundPlayer.cs" />
     <Compile Include="Services\Statistic.cs" />
     <Compile Include="Services\TimerManager.cs" />
