@@ -24,5 +24,27 @@ namespace PomodoroTimer
         {
             InitializeComponent();
         }
+
+        private void dragWindow(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                DragMove();
+            } catch (Exception ex) 
+            { 
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private void exitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void hideBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState= WindowState.Minimized;
+        }
     }
 }

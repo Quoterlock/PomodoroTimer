@@ -38,6 +38,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>timer-Logo2.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
@@ -81,10 +84,9 @@
     <Compile Include="Commands\StartTimer.cs" />
     <Compile Include="Commands\StopTimer.cs" />
     <Compile Include="Models\Pomodoro.cs" />
-    <Compile Include="Services\Logger.cs" />
     <Compile Include="Services\Sorter.cs" />
     <Compile Include="Services\SoundPlayer.cs" />
-    <Compile Include="Services\Statistic.cs" />
+    <Compile Include="Services\RecordsManager.cs" />
     <Compile Include="Services\TimerManager.cs" />
     <Compile Include="Services\TimerSingleton.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
@@ -156,6 +158,26 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\cancel_circle_close_delete_discard_file_x_icon_123219.png" />
+    <Resource Include="Icons\cancel_circle_collapse_min_minus_remove_icon_123221.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\timer-logo1.png" />
+    <Resource Include="Icons\timer-Logo2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\timer-logo1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\timer-Logo2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="timer-logo1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="timer-Logo2.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

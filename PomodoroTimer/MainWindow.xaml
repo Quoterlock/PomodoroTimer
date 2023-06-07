@@ -8,7 +8,8 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="MainWindow" Height="250" Width="350">
+        WindowStyle="None"
+        Title="MainWindow" Height="250" Width="350" Background="Transparent" AllowsTransparency="True">
     <Grid>
         <Grid.Resources>
             <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
@@ -19,7 +20,22 @@
             </DataTemplate>
         </Grid.Resources>
 
+        <Rectangle Style="{DynamicResource uiBlocksBackgoundRectangleStyle}" Margin="0"/>
         <!-- DISPLAY CURRENT VIEW MODEL -->
-        <ContentControl Content="{Binding CurrentViewModel}"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Rectangle x:Name="upperPanel" Fill="Transparent" MouseLeftButtonDown="dragWindow"/>
+            <Button x:Name="exitBtn" HorizontalAlignment="Right" Width="20" Height="20" Click="exitBtn_Click" Margin="2,2,5,2" Style="{DynamicResource IconBtnStyle}" >
+                <Image Source="/Icons/cancel_circle_close_delete_discard_file_x_icon_123219.png"/>
+            </Button>
+            <Button x:Name="hideBtn" HorizontalAlignment="Right" Width="20" Height="20" Margin="2,2,25,2" Click="hideBtn_Click" Style="{DynamicResource IconBtnStyle}">
+                <Image Source="/Icons/cancel_circle_collapse_min_minus_remove_icon_123221.png"/>
+            </Button>
+
+            <ContentControl Content="{Binding CurrentViewModel}" Grid.Row="1"/>
+        </Grid>
     </Grid>
 </Window>

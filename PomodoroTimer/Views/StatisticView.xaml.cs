@@ -23,7 +23,7 @@ namespace PomodoroTimer.Views
             InitializeComponent();
 
             // show total time
-            totalTime.Content = "Total time: " + secToFormat(Statistic.getTotalTime());
+            totalTime.Content = "Total time: " + secToFormat(RecordsManager.getTotalTime());
 
             // get all records
             List<DataItemModel> items = new List<DataItemModel>();
@@ -31,7 +31,7 @@ namespace PomodoroTimer.Views
             {
                 // get file
                 FileInfo info = new FileInfo(file);
-                PomodoroModel model = Statistic.getByName(info.Name);
+                PomodoroModel model = RecordsManager.getByName(info.Name);
                 // add info to list
                 items.Add( new DataItemModel {
                     Date = info.Name.Replace(".bin", ""), 
@@ -50,7 +50,7 @@ namespace PomodoroTimer.Views
             if(File.Exists(".\\Data\\" + DateTime.Now.ToString("dd-MM-yyyy") + ".bin"))
             {
                 // get info object
-                PomodoroModel today = Statistic.getByName(DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
+                PomodoroModel today = RecordsManager.getByName(DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
                 // show in UI
                 todayCount.Content = "Today pomodoros: " + today.TodayCount;
                 todayTime.Content = "Today time: " + secToFormat(today.TodayTime);

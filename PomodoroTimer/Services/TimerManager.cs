@@ -22,11 +22,13 @@ namespace PomodoroTimer.Services
         /// <param name="time">time (seconds)</param>
         public void Start(int time)
         {
-            // устанавливаем метод обратного вызова
+            // if timer is running
+            if(timer != null) throw new Exception("Timer is already running!");
+
+            // set callback method
             TimerCallback timerCallback = new TimerCallback(Count);
-            Console.WriteLine("Timer Started...");
             
-            // set timer
+            // set timer duration
             remainingTime = time;
             // run timer with this as a object param
             timer = new Timer(timerCallback, this, 0, 1000);
@@ -47,11 +49,7 @@ namespace PomodoroTimer.Services
                 // reduce time
                 _this.RemainingTime--;
             }
-            else _this.Stop();
-
-            // log
-            Console.WriteLine("Tick..." + _this.remainingTime);
-            
+            else _this.Stop(); // if time 0 or less -> stop timer            
         }
 
         /// <summary>
@@ -59,6 +57,7 @@ namespace PomodoroTimer.Services
         /// </summary>
         public void Stop()
         {
+            // if timer is not null -> stop timer
             if(timer != null)
             {
                 timer.Dispose();

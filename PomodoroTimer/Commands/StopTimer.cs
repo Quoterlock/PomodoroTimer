@@ -1,10 +1,7 @@
 ﻿using PomodoroTimer.Services;
 using PomodoroTimer.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace PomodoroTimer.Commands
 {
@@ -22,16 +19,23 @@ namespace PomodoroTimer.Commands
             // save time
             if (viewModel.isWorkTimer)
             {
-                Statistic.addToDate(
+                RecordsManager.addToDate(
                     new Models.PomodoroModel { 
                         TodayTime = viewModel.TimerDuration - TimerSingleton.get().RemainingTime, TodayCount = 1 }, DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
             }
             // stop timer
             TimerSingleton.get().Stop();
 
+            // play notification sound
             Player soundPlayer = new Player();
             soundPlayer.setSong(Properties.Settings.Default.sound);
-            soundPlayer.play();
+            try
+            {
+                soundPlayer.play();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

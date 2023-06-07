@@ -1,10 +1,6 @@
 ﻿using PomodoroTimer.Services;
 using PomodoroTimer.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PomodoroTimer.Commands
@@ -24,11 +20,14 @@ namespace PomodoroTimer.Commands
 
         public override void Execute(object parameter)
         {
-            // log
-            Console.WriteLine("Start command...");
-
-            // start timer
-            TimerSingleton.get().Start(viewModel.TimerDuration);
+            // try to start timer
+            try
+            {
+                TimerSingleton.get().Start(viewModel.TimerDuration);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>
@@ -36,14 +35,19 @@ namespace PomodoroTimer.Commands
         /// </summary>
         private void TimerTick()
         {
+            // get remaining time
             int time = TimerSingleton.get().RemainingTime;
+            // if time more or equal than 0
             if(time <= 0) {
+                // check timer mode
                 if(viewModel.isWorkTimer)
                 {
-                    Statistic.addToDate(
+                    // add pomodoro record
+                    RecordsManager.addToDate(
                     new Models.PomodoroModel { TodayTime = viewModel.TimerDuration, TodayCount = 1 }, DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
                 }
 
+                // play notification setted sound
                 Player soundPlayer = new Player();
                 soundPlayer.setSong(Properties.Settings.Default.sound);
                 try
@@ -54,6 +58,7 @@ namespace PomodoroTimer.Commands
                     MessageBox.Show(ex.Message);
                 }
             }
+            // show current time
             viewModel.CurrentTime = time/60 + ":" + time%60;
         }
     }
