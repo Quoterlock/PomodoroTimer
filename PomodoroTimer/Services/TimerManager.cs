@@ -23,7 +23,7 @@ namespace PomodoroTimer.Services
         public void Start(int time)
         {
             // if timer is running
-            if(timer != null) throw new Exception("Timer is already running!");
+            if(remainingTime != 0) throw new Exception("Timer is already running!");
 
             // set callback method
             TimerCallback timerCallback = new TimerCallback(Count);
@@ -61,6 +61,7 @@ namespace PomodoroTimer.Services
             if(timer != null)
             {
                 timer.Dispose();
+                remainingTime = 0;
             }
         }
 

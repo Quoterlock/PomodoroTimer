@@ -39,7 +39,7 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>timer-Logo2.ico</ApplicationIcon>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
@@ -164,20 +164,17 @@
     <Resource Include="Icons\cancel_circle_collapse_min_minus_remove_icon_123221.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\timer-logo1.png" />
-    <Resource Include="Icons\timer-Logo2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\timer-logo1.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\timer-Logo2.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="timer-logo1.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="timer-Logo2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\logo.ico" />
+    <Resource Include="Icons\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
