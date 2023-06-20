@@ -13,6 +13,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -26,20 +27,15 @@
                    VerticalAlignment="Center"
                    FontSize="70" Margin="0,-30,0,0"/>
 
-            <Label Content="{Binding ModeLabel}" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5"/>
+            <Label Content="{Binding ModeLabel}" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5"/>
 
             <Button Content="Start" Command="{Binding Start}" Grid.Column="0" Grid.Row="1"/>
             <Button Content="Stop" Command="{Binding Stop}" Grid.Column="1" Grid.Row="1"/>
-            <Grid Grid.Row="1" Grid.Column="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="28"/>
-                </Grid.ColumnDefinitions>
-                <Button Content="Set" Command="{Binding ToSetting}" Grid.Column="1"/>
-                <Button Content="Stats" Command="{Binding ToStats}"/>
-            </Grid>
+            <Button Content="Settings" Command="{Binding ToSetting}" Grid.Column="3" Grid.Row="1"/>
+            <Button Content="Stats" Command="{Binding ToStats}" Grid.Column="2" Grid.Row="1"/>
             <Button Content="Rest" Command="{Binding SetRest}" Grid.Column="1" Grid.Row="2"/>
             <Button Content="Long rest" Command="{Binding SetLongRest}" Grid.Column="2" Grid.Row="2"/>
+            <Button Content="Cycle" Command="{Binding SetCycle}" Grid.Column="3" Grid.Row="2"/>
             <Button Content="Work" Command="{Binding SetWork}" Grid.Column="0" Grid.Row="2"/>
             
         </Grid>

@@ -37,9 +37,18 @@ namespace PomodoroTimer.Commands
         {
             // get remaining time
             int time = TimerSingleton.get().RemainingTime;
-            // if time more or equal than 0
-            if(time <= 0) {
-                // check timer mode
+
+            // show current time in UI
+            int minutes = time / 60;
+            int seconds = time % 60;
+            viewModel.CurrentTime = ((minutes < 10) ? "0" + minutes : minutes) + ":" + ((seconds < 10) ? "0" + seconds : seconds);
+
+            // if time runned out
+            if (time <= 0) 
+            {
+                TimerSingleton.get().Stop();
+
+                // if it is work timer
                 if(viewModel.isWorkTimer)
                 {
                     // add pomodoro record
@@ -47,19 +56,43 @@ namespace PomodoroTimer.Commands
                     new Models.PomodoroModel { TodayTime = viewModel.TimerDuration, TodayCount = 1 }, DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
                 }
 
-                // play notification setted sound
+                // try play notification sound
                 Player soundPlayer = new Player();
                 soundPlayer.setSong(Properties.Settings.Default.sound);
                 try
                 {
                     soundPlayer.play();
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
+
+                // if it is cycle mode
+                if (viewModel.isCycleMode)
+                {
+                    int workTime = Properties.Settings.Default.workTime;
+                    int restTime = Properties.Settings.Default.restTime;
+
+                    //viewModel.ModeLabel = "Current mode: cycle (" + workTime + ":" + restTime + ")";
+                    
+                    // start new timer
+                    if (viewModel.isWorkTimer)
+                    {
+                        // set rest timer
+                        viewModel.TimerDuration = restTime * 60;
+                        viewModel.isWorkTimer = false;
+                        this.Execute(null);
+                    }
+                    else
+                    {
+                        // set work timer
+                        viewModel.TimerDuration = workTime * 60;
+                        viewModel.isWorkTimer = true;
+                        this.Execute(null);
+                    }
+                }
             }
-            // show current time
-            viewModel.CurrentTime = time/60 + ":" + time%60;
         }
     }
 }

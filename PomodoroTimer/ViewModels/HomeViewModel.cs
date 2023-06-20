@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using PomodoroTimer.Commands;
 using PomodoroTimer.Views;
+using System.Security.RightsManagement;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace PomodoroTimer.ViewModels
@@ -13,7 +15,7 @@ namespace PomodoroTimer.ViewModels
         public HomeViewModel() {
 
             // default values
-            currentTime = "0:0";
+            currentTime = "00:00";
             timerDuration = 1;
             ModeLabel = "Current mode: None (0 min)";
 
@@ -25,6 +27,7 @@ namespace PomodoroTimer.ViewModels
             SetRest = new RelayCommand(setRestTime);
             SetLongRest = new RelayCommand(setLongRestTime);
             ToStats = new RelayCommand(openStats);
+            SetCycle = new RelayCommand(setCycleMode);
         }
 
         /////// PROPERTIES ///////
@@ -65,6 +68,7 @@ namespace PomodoroTimer.ViewModels
             }
         }
         public bool isWorkTimer { get; set; }
+        public bool isCycleMode { get; set; } 
 
         /////// COMMANDS ///////
         public ICommand Start { get;  }
@@ -74,6 +78,7 @@ namespace PomodoroTimer.ViewModels
         public ICommand SetWork { get; }
         public ICommand SetRest { get; }
         public ICommand SetLongRest { get; }
+        public ICommand SetCycle { get; }
 
         /////// METHODS ///////
         private void setWorkTime()
@@ -97,10 +102,23 @@ namespace PomodoroTimer.ViewModels
             isWorkTimer = false;
         }
 
+        private void setCycleMode()
+        {
+            int workTime = Properties.Settings.Default.workTime;
+            int restTime = Properties.Settings.Default.restTime;
+
+            ModeLabel = "Current mode: cycle (" + workTime + ":" + restTime + ")";
+
+            timerDuration = workTime * 60;
+            isWorkTimer = true;
+            isCycleMode = true;
+        }
+
         private void openStats()
         {
             StatisticView window = new StatisticView();
             window.Show();
         }
+
     }
 }

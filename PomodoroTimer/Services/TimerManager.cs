@@ -42,14 +42,7 @@ namespace PomodoroTimer.Services
         {
             // Cast parent object
             TimerManager _this = (TimerManager)obj;
-
-            // if time is 0 -> stop this timer
-            if (_this.remainingTime > 0)
-            {
-                // reduce time
-                _this.RemainingTime--;
-            }
-            else _this.Stop(); // if time 0 or less -> stop timer            
+            _this.RemainingTime--;
         }
 
         /// <summary>

@@ -16,17 +16,22 @@ namespace PomodoroTimer.Commands
         }
         public override void Execute(object parameter)
         {
-            // save time
+            //if it is work timer
             if (viewModel.isWorkTimer)
             {
+                // save record
                 RecordsManager.addToDate(
                     new Models.PomodoroModel { 
                         TodayTime = viewModel.TimerDuration - TimerSingleton.get().RemainingTime, TodayCount = 1 }, DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
             }
+
             // stop timer
             TimerSingleton.get().Stop();
 
-            // play notification sound
+            // reset time in UI
+            viewModel.CurrentTime = "00:00";
+
+            // try play notification sound
             Player soundPlayer = new Player();
             soundPlayer.setSong(Properties.Settings.Default.sound);
             try

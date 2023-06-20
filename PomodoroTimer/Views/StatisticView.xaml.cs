@@ -22,44 +22,52 @@ namespace PomodoroTimer.Views
         {
             InitializeComponent();
 
-            // show total time
-            totalTime.Content = "Total time: " + secToFormat(RecordsManager.getTotalTime());
-
-            // get all records
-            List<DataItemModel> items = new List<DataItemModel>();
-            foreach(string file in Directory.GetFiles(".\\Data"))
+            try // try to load statistic
             {
-                // get file
-                FileInfo info = new FileInfo(file);
-                PomodoroModel model = RecordsManager.getByName(info.Name);
-                // add info to list
-                items.Add( new DataItemModel {
-                    Date = info.Name.Replace(".bin", ""), 
-                    Time = secToFormat(model.TodayTime),
-                    Count = model.TodayCount.ToString() }
-                );
-            }
+                // show total time
+                totalTime.Content = "Total time: " + secToFormat(RecordsManager.getTotalTime());
 
-            // sort records by date
-            items = Sorter.sortByDate(items);
+                // get all records
+                List<DataItemModel> items = new List<DataItemModel>();
+                foreach (string file in Directory.GetFiles(".\\Data"))
+                {
+                    // get file
+                    FileInfo info = new FileInfo(file);
+                    PomodoroModel model = RecordsManager.getByName(info.Name);
+                    // add info to list
+                    items.Add(new DataItemModel
+                    {
+                        Date = info.Name.Replace(".bin", ""),
+                        Time = secToFormat(model.TodayTime),
+                        Count = model.TodayCount.ToString()
+                    }
+                    );
+                }
 
-            // add new items to datagrid
-            foreach (var item in items) daysList.Items.Add(item);
+                // sort records by date
+                items = Sorter.sortByDate(items);
 
-            // load today info
-            if(File.Exists(".\\Data\\" + DateTime.Now.ToString("dd-MM-yyyy") + ".bin"))
+                // add new items to datagrid
+                foreach (var item in items) daysList.Items.Add(item);
+
+                // load today info
+                if (File.Exists(".\\Data\\" + DateTime.Now.ToString("dd-MM-yyyy") + ".bin"))
+                {
+                    // get info object
+                    PomodoroModel today = RecordsManager.getByName(DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
+                    // show in UI
+                    todayCount.Content = "Today pomodoros: " + today.TodayCount;
+                    todayTime.Content = "Today time: " + secToFormat(today.TodayTime);
+                }
+                else
+                {
+                    // set default values
+                    todayCount.Content = "Today pomodoros: 0";
+                    todayTime.Content = "Today time: 0";
+                }
+            } catch (Exception ex)
             {
-                // get info object
-                PomodoroModel today = RecordsManager.getByName(DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
-                // show in UI
-                todayCount.Content = "Today pomodoros: " + today.TodayCount;
-                todayTime.Content = "Today time: " + secToFormat(today.TodayTime);
-            }
-            else
-            {
-                // set default values
-                todayCount.Content = "Today pomodoros: 0";
-                todayTime.Content = "Today time: 0";
+                MessageBox.Show(ex.Message);
             }
 
         }
