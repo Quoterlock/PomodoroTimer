@@ -16,21 +16,28 @@ namespace PersonalBudget.Modules
         /// <returns>sorted list</returns>
         public static List<DataItemModel> sortByDate(List<DataItemModel> items)
         {
-            // create new list
-            List<DataItemModel> result = new List<DataItemModel>();
-            // counter
-            int cycles = items.Count;
-            // for every item
-            for(int i = 0; i < cycles; i++)
+            try
             {
-                // find min in unsorted of list
-                DataItemModel min = getMaxDate(items);
-                // add to sorted list
-                result.Add(min);
-                // remove this item from unsorted list
-                items.Remove(min);
+                // create new list
+                List<DataItemModel> result = new List<DataItemModel>();
+                // counter
+                int cycles = items.Count;
+                // for every item
+                for (int i = 0; i < cycles; i++)
+                {
+                    // find min in unsorted of list
+                    DataItemModel min = getMaxDate(items);
+                    // add to sorted list
+                    result.Add(min);
+                    // remove this item from unsorted list
+                    items.Remove(min);
+                }
+                return result; // return result
             }
-            return result; // return result
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         /// <summary>
@@ -40,15 +47,23 @@ namespace PersonalBudget.Modules
         /// <returns>item with max date</returns>
         private static DataItemModel getMaxDate(List<DataItemModel> items)
         {
+            string format = "dd-MM-yyyy";
             // if list is empty -> return default
-            if(items.Count == 0) return new DataItemModel();
+            if (items.Count == 0) return new DataItemModel();
             // start with first item
             DataItemModel tmp = items[0];
             // chech elements
-            foreach (DataItemModel item in items)
-                if(DateTime.Parse(tmp.Date) < DateTime.Parse(item.Date))
-                    tmp = item; // update current max
-            return tmp; // return current max
+            try
+            {
+                foreach (DataItemModel item in items)
+                    if (DateTime.ParseExact(tmp.Date, format, null) < DateTime.ParseExact(item.Date, format, null))
+                        tmp = item; // update current max
+                return tmp; // return current max
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
