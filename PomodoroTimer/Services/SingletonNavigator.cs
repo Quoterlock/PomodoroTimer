@@ -9,7 +9,7 @@ namespace PomodoroTimer.Services
     public sealed class SingletonNavigator
     {
         private static Navigator navigator = new Navigator();
-        public static Navigator get()
+        public static Navigator Get()
         {
             if (navigator == null)
                 navigator = new Navigator();

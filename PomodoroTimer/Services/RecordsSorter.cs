@@ -9,7 +9,7 @@ namespace PersonalBudget.Modules
         private const int FIRST_ELEMENT = 0;
         const string DATE_FORMAT = "dd-MM-yyyy";
 
-        public static List<RecordItem> sortItemsDate(List<RecordItem> items)
+        public static List<RecordItem> SortItemsDate(List<RecordItem> items)
         {
             try
             {

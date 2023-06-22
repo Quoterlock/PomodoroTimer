@@ -18,13 +18,13 @@ namespace PomodoroTimer.Commands
         {
             if (viewModel.isWorkTimer)
                 saveRecord();
-            TimerSingleton.Get().stop();
+            TimerSingleton.Get().Stop();
             resetTimeInUI();
             playSound();
         }
         private void saveRecord()
         {
-            PomodoroRecordsStatictic.append(
+            PomodoroRecordsStatictic.Append(
                 new Models.PomodoroModel { TodayTime = viewModel.TimerDuration - TimerSingleton.Get().RemainingTime, TodayCount = 1 },
                 DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
         }
@@ -37,8 +37,8 @@ namespace PomodoroTimer.Commands
             try
             {
                 Player soundPlayer = new Player();
-                soundPlayer.setSoundPath(Properties.Settings.Default.sound);
-                soundPlayer.playSelectedSound();
+                soundPlayer.SetSoundPath(Properties.Settings.Default.sound);
+                soundPlayer.PlaySelected();
             }
             catch (Exception ex)
             {

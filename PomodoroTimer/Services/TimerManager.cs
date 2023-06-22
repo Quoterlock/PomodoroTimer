@@ -13,7 +13,7 @@ namespace PomodoroTimer.Services
         public TimerManager() { }
 
         /////////// METHODS ///////////
-        public void start(int secondsDuration)
+        public void Start(int secondsDuration)
         {
             if(remainingTime <= 0)
             {
@@ -26,12 +26,7 @@ namespace PomodoroTimer.Services
                 throw new Exception("Timer is already running!");
             }
         }
-        static void count(object obj)
-        {
-            TimerManager thisTimer = (TimerManager)obj;
-            thisTimer.RemainingTime--;
-        }
-        public void stop()
+        public void Stop()
         {
             if(timer != null)
             {
@@ -42,6 +37,11 @@ namespace PomodoroTimer.Services
         private void onTimerTick()
         {
             TimerTick?.Invoke();
+        }
+        private static void count(object obj)
+        {
+            TimerManager thisTimer = (TimerManager)obj;
+            thisTimer.RemainingTime--;
         }
 
         ////////// PROPERTIES //////////

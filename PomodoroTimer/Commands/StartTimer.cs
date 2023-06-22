@@ -22,7 +22,7 @@ namespace PomodoroTimer.Commands
             // try to start timer
             try
             {
-                TimerSingleton.Get().start(viewModel.TimerDuration);
+                TimerSingleton.Get().Start(viewModel.TimerDuration);
             } catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
@@ -37,7 +37,7 @@ namespace PomodoroTimer.Commands
 
             if (remainingTime <= 0) 
             {
-                TimerSingleton.Get().stop();
+                TimerSingleton.Get().Stop();
 
                 if(viewModel.isWorkTimer)
                     appendCurrentRecord(viewModel.TimerDuration);
@@ -57,7 +57,7 @@ namespace PomodoroTimer.Commands
         }
         private void appendCurrentRecord(int recordTime)
         {
-            PomodoroRecordsStatictic.append(
+            PomodoroRecordsStatictic.Append(
                 new Models.PomodoroModel { TodayTime = recordTime, TodayCount = 1 },
                 DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
         }
@@ -66,8 +66,8 @@ namespace PomodoroTimer.Commands
             try
             {
                 Player soundPlayer = new Player();
-                soundPlayer.setSoundPath(Properties.Settings.Default.sound);
-                soundPlayer.playSelectedSound();
+                soundPlayer.SetSoundPath(Properties.Settings.Default.sound);
+                soundPlayer.PlaySelected();
             }
             catch (Exception ex)
             {

@@ -45,7 +45,7 @@ namespace PomodoroTimer.Views
 
             if (File.Exists(filePath))
             {
-                PomodoroModel todayRecord = PomodoroRecordsStatictic.getRecordFromFile(DateTime.Now.ToString(DATE_FORMAT) + FILE_FORMAT);
+                PomodoroModel todayRecord = PomodoroRecordsStatictic.GetRecordFromFile(DateTime.Now.ToString(DATE_FORMAT) + FILE_FORMAT);
                 todayCount.Content = "Today pomodoros: " + todayRecord.TodayCount;
                 todayTime.Content = "Today time: " + secondsToFormat(todayRecord.TodayTime);
             }
@@ -57,7 +57,7 @@ namespace PomodoroTimer.Views
         }
         private void displayTotalTime()
         {
-            totalTime.Content = "Total time: " + secondsToFormat(PomodoroRecordsStatictic.getRecordsTotalTime());
+            totalTime.Content = "Total time: " + secondsToFormat(PomodoroRecordsStatictic.GetRecordsTotalTime());
         }
         private void displayDataInTable()
         {
@@ -65,7 +65,7 @@ namespace PomodoroTimer.Views
             foreach (string file in Directory.GetFiles(DATA_FOLDER_PATH))
             {
                 FileInfo fileInfo = new FileInfo(file);
-                PomodoroModel pomodoroModel = PomodoroRecordsStatictic.getRecordFromFile(fileInfo.Name);
+                PomodoroModel pomodoroModel = PomodoroRecordsStatictic.GetRecordFromFile(fileInfo.Name);
                 // add info to list
                 records.Add(new SatatisticTableItemModel
                 {
@@ -77,7 +77,7 @@ namespace PomodoroTimer.Views
             }
 
             // sort records by date
-            records = RecordsSorter.sortItemsDate(records);
+            records = RecordsSorter.SortItemsDate(records);
 
             // add new items to datagrid
             foreach (var item in records) daysList.Items.Add(item);

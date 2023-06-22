@@ -7,18 +7,18 @@ namespace PomodoroTimer.Services
     internal class PomodoroRecordsStatictic
     {
         private const string DATA_FOLDER_PATH= ".\\Data";
-        public static void append(PomodoroModel record, string fileName)
+        public static void Append(PomodoroModel record, string fileName)
         {
             if (!Directory.Exists(DATA_FOLDER_PATH))
                 Directory.CreateDirectory(DATA_FOLDER_PATH);
 
             string filePath = DATA_FOLDER_PATH + "\\" + fileName;
-            PomodoroModel prevRecord = getRecordFromFile(fileName);
+            PomodoroModel prevRecord = GetRecordFromFile(fileName);
             record.TodayTime += prevRecord.TodayTime;
             record.TodayCount += prevRecord.TodayCount;
             createNewRecordFile(record, filePath);
         }
-        public static PomodoroModel getRecordFromFile(string fileName)
+        public static PomodoroModel GetRecordFromFile(string fileName)
         {
             PomodoroModel record;
             string filePath = DATA_FOLDER_PATH + "\\" + fileName;
@@ -36,14 +36,14 @@ namespace PomodoroTimer.Services
             }
             return record;
         }
-        public static int getRecordsTotalTime()
+        public static int GetRecordsTotalTime()
         {
             int totalSeconds = 0;
 
             foreach(string file in Directory.GetFiles(DATA_FOLDER_PATH))
             {
                 FileInfo fileInfo = new FileInfo(file);
-                PomodoroModel record = getRecordFromFile(fileInfo.Name);
+                PomodoroModel record = GetRecordFromFile(fileInfo.Name);
                 totalSeconds += record.TodayTime;
             }
             return totalSeconds;

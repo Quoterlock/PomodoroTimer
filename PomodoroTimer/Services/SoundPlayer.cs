@@ -14,12 +14,12 @@
             player = new System.Media.SoundPlayer();
         }
 
-        public void playSelectedSound()
+        public void PlaySelected()
         {
             player.SoundLocation = soundPath;
             player.Play();
         }
-        public void setSoundPath(string soundPath)
+        public void SetSoundPath(string soundPath)
         {
             this.soundPath = soundPath;
         }
