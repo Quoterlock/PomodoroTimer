@@ -17,7 +17,7 @@ namespace PomodoroTimer.ViewModels
             // default values
             currentTime = "00:00";
             timerDuration = 1;
-            ModeLabel = "Current mode: None (0 min)";
+            ModeLabelText = "Current mode: None (0 min)";
 
             // bind commands
             Start = new StartTimer(this);
@@ -31,7 +31,7 @@ namespace PomodoroTimer.ViewModels
         }
 
         /////// PROPERTIES ///////
-        public string ModeLabel
+        public string ModeLabelText
         {
             get => mode;
             set
@@ -39,7 +39,7 @@ namespace PomodoroTimer.ViewModels
                 if(mode != value)
                 {
                     mode = value;
-                    OnPropertyChanged(nameof(ModeLabel));
+                    OnPropertyChanged(nameof(ModeLabelText));
                 }
             }
         }
@@ -84,21 +84,21 @@ namespace PomodoroTimer.ViewModels
         private void setWorkTime()
         {
             timerDuration = Properties.Settings.Default.workTime * 60;
-            ModeLabel = "Current mode: Work (" + timerDuration/60 + " min)";
+            ModeLabelText = "Current mode: Work (" + timerDuration/60 + " min)";
             isWorkTimer = true;
         }
 
         private void setRestTime()
         {
             timerDuration = Properties.Settings.Default.restTime * 60;
-            ModeLabel = "Current mode: Rest (" + timerDuration / 60 + " min)";
+            ModeLabelText = "Current mode: Rest (" + timerDuration / 60 + " min)";
             isWorkTimer = false;
         }
 
         private void setLongRestTime()
         {
             timerDuration = Properties.Settings.Default.longRestTime * 60;
-            ModeLabel = "Current mode: Long rest (" + timerDuration / 60 + " min)";
+            ModeLabelText = "Current mode: Long rest (" + timerDuration / 60 + " min)";
             isWorkTimer = false;
         }
 
@@ -107,7 +107,7 @@ namespace PomodoroTimer.ViewModels
             int workTime = Properties.Settings.Default.workTime;
             int restTime = Properties.Settings.Default.restTime;
 
-            ModeLabel = "Current mode: cycle (" + workTime + ":" + restTime + ")";
+            ModeLabelText = "Current mode: cycle (" + workTime + ":" + restTime + ")";
 
             timerDuration = workTime * 60;
             isWorkTimer = true;

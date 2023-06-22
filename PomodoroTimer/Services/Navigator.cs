@@ -13,11 +13,8 @@ namespace PomodoroTimer.Services
     /// </summary>
     public class Navigator
     {
-
         private ViewModelBase currentViewModel;
-
         public event Action CurrentViewModelChanged;
-
         public ViewModelBase CurrentViewModel
         {
             get => currentViewModel;
@@ -26,16 +23,11 @@ namespace PomodoroTimer.Services
                 if (currentViewModel != value)
                 {
                     currentViewModel = value;
-                    // raises CurrentViewModelChanged event
                     OnCurrentViewModelChanged();
                 }
             }
         }
 
-        /// <summary>
-        /// Method that invokes the CurrentViewModelChanged event
-        /// when the CurrentViewModelChanged has changed.
-        /// </summary>
         private void OnCurrentViewModelChanged()
         {
             CurrentViewModelChanged?.Invoke();

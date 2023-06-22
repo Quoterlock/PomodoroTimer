@@ -6,64 +6,40 @@ namespace PomodoroTimer.Services
     public class TimerManager
     {
         private Timer timer;
-
         protected int remainingTime;
-
         public event Action TimerTick;
+        private const int TICK_PERIOD = 1000;
 
-        public TimerManager() {
-            // none
-        }
+        public TimerManager() { }
 
         /////////// METHODS ///////////
-        /// <summary>
-        /// Start timer on time method
-        /// </summary>
-        /// <param name="time">time (seconds)</param>
-        public void Start(int time)
+        public void start(int secondsDuration)
         {
-            // if timer is running
-            if(remainingTime != 0) throw new Exception("Timer is already running!");
-
-            // set callback method
-            TimerCallback timerCallback = new TimerCallback(Count);
-            
-            // set timer duration
-            remainingTime = time;
-            // run timer with this as a object param
-            timer = new Timer(timerCallback, this, 0, 1000);
+            if(remainingTime <= 0)
+            {
+                TimerCallback timerCallback = new TimerCallback(count);
+                remainingTime = secondsDuration;
+                timer = new Timer(timerCallback, this, 0, TICK_PERIOD);
+            }
+            else
+            {
+                throw new Exception("Timer is already running!");
+            }
         }
-
-        /// <summary>
-        /// Method that is called every timer tick
-        /// </summary>
-        /// <param name="obj"></param>
-        static void Count(object obj)
+        static void count(object obj)
         {
-            // Cast parent object
-            TimerManager _this = (TimerManager)obj;
-            _this.RemainingTime--;
+            TimerManager thisTimer = (TimerManager)obj;
+            thisTimer.RemainingTime--;
         }
-
-        /// <summary>
-        /// Stop timer method
-        /// </summary>
-        public void Stop()
+        public void stop()
         {
-            // if timer is not null -> stop timer
             if(timer != null)
             {
                 timer.Dispose();
                 remainingTime = 0;
             }
         }
-
-        /// <summary>
-        /// Method that inform
-        /// all event subscribers
-        /// about timer tick
-        /// </summary>
-        private void OnTimerTick()
+        private void onTimerTick()
         {
             TimerTick?.Invoke();
         }
@@ -77,7 +53,7 @@ namespace PomodoroTimer.Services
                 if(remainingTime != value)
                 {
                     remainingTime = value;
-                    OnTimerTick(); // alert all subs
+                    onTimerTick(); // alert all subs
                 }
             }
         }

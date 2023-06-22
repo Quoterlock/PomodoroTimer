@@ -8,14 +8,13 @@ namespace PomodoroTimer.Commands
     internal class StartTimer : CommandBase
     {
         HomeViewModel viewModel;
+        int remainingTime;
 
         public StartTimer(HomeViewModel viewModel) 
         { 
-            // set view model
             this.viewModel = viewModel;
-
-            // subscribe to timer tick event
-            TimerSingleton.get().TimerTick += TimerTick;
+            remainingTime = 0;
+            TimerSingleton.Get().TimerTick += timerTick;
         }
 
         public override void Execute(object parameter)
@@ -23,76 +22,82 @@ namespace PomodoroTimer.Commands
             // try to start timer
             try
             {
-                TimerSingleton.get().Start(viewModel.TimerDuration);
+                TimerSingleton.Get().start(viewModel.TimerDuration);
             } catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
 
-        /// <summary>
-        /// Change info in view model after each timer tick
-        /// </summary>
-        private void TimerTick()
+        private void timerTick()
         {
-            // get remaining time
-            int time = TimerSingleton.get().RemainingTime;
+            remainingTime = TimerSingleton.Get().RemainingTime;
 
-            // show current time in UI
-            int minutes = time / 60;
-            int seconds = time % 60;
-            viewModel.CurrentTime = ((minutes < 10) ? "0" + minutes : minutes) + ":" + ((seconds < 10) ? "0" + seconds : seconds);
+            showCurrentTimeInUI();
 
-            // if time runned out
-            if (time <= 0) 
+            if (remainingTime <= 0) 
             {
-                TimerSingleton.get().Stop();
+                TimerSingleton.Get().stop();
 
-                // if it is work timer
                 if(viewModel.isWorkTimer)
-                {
-                    // add pomodoro record
-                    RecordsManager.addToDate(
-                    new Models.PomodoroModel { TodayTime = viewModel.TimerDuration, TodayCount = 1 }, DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
-                }
+                    appendCurrentRecord(viewModel.TimerDuration);
 
-                // try play notification sound
-                Player soundPlayer = new Player();
-                soundPlayer.setSong(Properties.Settings.Default.sound);
-                try
-                {
-                    soundPlayer.play();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                playSoundNotification();
 
-                // if it is cycle mode
                 if (viewModel.isCycleMode)
-                {
-                    int workTime = Properties.Settings.Default.workTime;
-                    int restTime = Properties.Settings.Default.restTime;
-
-                    //viewModel.ModeLabel = "Current mode: cycle (" + workTime + ":" + restTime + ")";
-                    
-                    // start new timer
-                    if (viewModel.isWorkTimer)
-                    {
-                        // set rest timer
-                        viewModel.TimerDuration = restTime * 60;
-                        viewModel.isWorkTimer = false;
-                        this.Execute(null);
-                    }
-                    else
-                    {
-                        // set work timer
-                        viewModel.TimerDuration = workTime * 60;
-                        viewModel.isWorkTimer = true;
-                        this.Execute(null);
-                    }
-                }
+                    startNextCycle();
             }
+        }
+
+        private void showCurrentTimeInUI()
+        {
+            int minutes = remainingTime / 60;
+            int seconds = remainingTime % 60;
+            viewModel.CurrentTime = ((minutes < 10) ? "0" + minutes : minutes) + ":" + ((seconds < 10) ? "0" + seconds : seconds);
+        }
+        private void appendCurrentRecord(int recordTime)
+        {
+            PomodoroRecordsStatictic.append(
+                new Models.PomodoroModel { TodayTime = recordTime, TodayCount = 1 },
+                DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
+        }
+        private void playSoundNotification()
+        {
+            try
+            {
+                Player soundPlayer = new Player();
+                soundPlayer.setSoundPath(Properties.Settings.Default.sound);
+                soundPlayer.playSelectedSound();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void startNextCycle()
+        {
+            if (viewModel.isWorkTimer)
+            {
+                setRestTime();
+                this.Execute(null);
+            }
+            else
+            {
+                setWorkTime();
+                this.Execute(null);
+            }
+        }
+        private void setRestTime()
+        {
+            int restTime = Properties.Settings.Default.restTime;
+            viewModel.TimerDuration = restTime * 60;
+            viewModel.isWorkTimer = false;
+        }
+        private void setWorkTime()
+        {
+            int workTime = Properties.Settings.Default.workTime;
+            viewModel.TimerDuration = workTime * 60;
+            viewModel.isWorkTimer = true;
         }
     }
 }

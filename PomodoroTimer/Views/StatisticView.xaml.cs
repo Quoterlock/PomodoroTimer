@@ -14,93 +14,85 @@ namespace PomodoroTimer.Views
     /// </summary>
     public partial class StatisticView : Window
     {
-        public string TotalTime { get; set; }
-        public string TodayPomodoros { get; set; }
-        public string TodayTime { get; set; }
+        private const string DATA_FOLDER_PATH = ".\\Data";
+        private const string DATE_FORMAT = "dd-MM-yyyy";
+        private const string FILE_FORMAT = ".bin";
 
         public StatisticView()
         {
             InitializeComponent();
-
-            try // try to load statistic
+            try
             {
-                // show total time
-                totalTime.Content = "Total time: " + secToFormat(RecordsManager.getTotalTime());
-
-                // get all records
-                List<DataItemModel> items = new List<DataItemModel>();
-                foreach (string file in Directory.GetFiles(".\\Data"))
-                {
-                    // get file
-                    FileInfo info = new FileInfo(file);
-                    PomodoroModel model = RecordsManager.getByName(info.Name);
-                    // add info to list
-                    items.Add(new DataItemModel
-                    {
-                        Date = info.Name.Replace(".bin", ""),
-                        Time = secToFormat(model.TodayTime),
-                        Count = model.TodayCount.ToString()
-                    }
-                    );
-                }
-
-                // sort records by date
-                items = Sorter.sortByDate(items);
-
-                // add new items to datagrid
-                foreach (var item in items) daysList.Items.Add(item);
-
-                // load today info
-                if (File.Exists(".\\Data\\" + DateTime.Now.ToString("dd-MM-yyyy") + ".bin"))
-                {
-                    // get info object
-                    PomodoroModel today = RecordsManager.getByName(DateTime.Now.ToString("dd-MM-yyyy") + ".bin");
-                    // show in UI
-                    todayCount.Content = "Today pomodoros: " + today.TodayCount;
-                    todayTime.Content = "Today time: " + secToFormat(today.TodayTime);
-                }
-                else
-                {
-                    // set default values
-                    todayCount.Content = "Today pomodoros: 0";
-                    todayTime.Content = "Today time: 0";
-                }
-            } catch (Exception ex)
+                displayTotalTime();
+                displayDataInTable();
+                displayTodayInfo();
+            } 
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
         }
 
-        /// <summary>
-        /// Convert count of seconds to formar "xx hours xx min xx sec"
-        /// </summary>
-        /// <param name="secs">seconds count</param>
-        /// <returns>formated string</returns>
-        private string secToFormat(int secs)
+        private void backButtonClick(object sender, RoutedEventArgs e)
         {
-            int h = secs / 3600;
-            int min = (secs % 3600) / 60;
-            int sec = (secs % 3600) % 60;
-            return $"{h} hours {min} min {sec} sec";
+            Close();
         }
 
-        /// <summary>
-        /// Class to store data rows
-        /// </summary>
-        public class DataItemModel
+        private void displayTodayInfo()
         {
-            public string Date { get; set; }
-            public string Time { get; set; }
-            public string Count { get; set; }
+            string filePath = DATA_FOLDER_PATH + "\\" + DateTime.Now.ToString(DATE_FORMAT) + FILE_FORMAT;
+
+            if (File.Exists(filePath))
+            {
+                PomodoroModel todayRecord = PomodoroRecordsStatictic.getRecordFromFile(DateTime.Now.ToString(DATE_FORMAT) + FILE_FORMAT);
+                todayCount.Content = "Today pomodoros: " + todayRecord.TodayCount;
+                todayTime.Content = "Today time: " + secondsToFormat(todayRecord.TodayTime);
+            }
+            else
+            {
+                todayCount.Content = "Today pomodoros: 0";
+                todayTime.Content = "Today time: 0";
+            }
+        }
+        private void displayTotalTime()
+        {
+            totalTime.Content = "Total time: " + secondsToFormat(PomodoroRecordsStatictic.getRecordsTotalTime());
+        }
+        private void displayDataInTable()
+        {
+            List<RecordItem> records = new List<RecordItem>();
+            foreach (string file in Directory.GetFiles(DATA_FOLDER_PATH))
+            {
+                FileInfo fileInfo = new FileInfo(file);
+                PomodoroModel pomodoroModel = PomodoroRecordsStatictic.getRecordFromFile(fileInfo.Name);
+                // add info to list
+                records.Add(new SatatisticTableItemModel
+                {
+                    Date = fileInfo.Name.Replace(".bin", ""),
+                    Time = secondsToFormat(pomodoroModel.TodayTime),
+                    Count = pomodoroModel.TodayCount.ToString()
+                }
+                );
+            }
+
+            // sort records by date
+            records = RecordsSorter.sortItemsDate(records);
+
+            // add new items to datagrid
+            foreach (var item in records) daysList.Items.Add(item);
+        }
+        private string secondsToFormat(int secondsCount)
+        {
+            int hours = secondsCount / 3600;
+            int minutes = (secondsCount % 3600) / 60;
+            int seconds = (secondsCount % 3600) % 60;
+            return $"{hours} hours {minutes} min {seconds} sec";
         }
 
-        /// <summary>
-        /// Back button click event
-        /// </summary>
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+        
+        public string TotalTime { get; set; }
+        public string TodayPomodoros { get; set; }
+        public string TodayTime { get; set; }
     }
 }

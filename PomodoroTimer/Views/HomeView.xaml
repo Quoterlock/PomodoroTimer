@@ -27,7 +27,7 @@
                    VerticalAlignment="Center"
                    FontSize="70" Margin="0,-30,0,0"/>
 
-            <Label Content="{Binding ModeLabel}" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5"/>
+            <Label Content="{Binding ModeLabelText}" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5"/>
 
             <Button Content="Start" Command="{Binding Start}" Grid.Column="0" Grid.Row="1"/>
             <Button Content="Stop" Command="{Binding Stop}" Grid.Column="1" Grid.Row="1"/>

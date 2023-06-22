@@ -19,7 +19,7 @@ namespace PomodoroTimer
         protected override void OnStartup(StartupEventArgs e)
         {
             // startup view
-            SingletonNavigator.Get().CurrentViewModel = new HomeViewModel();
+            SingletonNavigator.get().CurrentViewModel = new HomeViewModel();
 
             // load global data
             // load settings

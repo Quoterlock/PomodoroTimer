@@ -10,11 +10,11 @@ namespace PomodoroTimer.ViewModels
     internal class MainViewModel : ViewModelBase
     {
         // field that contain current view model (from navigator)
-        public ViewModelBase CurrentViewModel => SingletonNavigator.Get().CurrentViewModel;
+        public ViewModelBase CurrentViewModel => SingletonNavigator.get().CurrentViewModel;
         public MainViewModel()
         {
             // subscribe to a notification when the current view model changed.
-            SingletonNavigator.Get().CurrentViewModelChanged += OnCurrentViewModelChanged;
+            SingletonNavigator.get().CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
 
         //////////////// PROPERTIES /////////////////

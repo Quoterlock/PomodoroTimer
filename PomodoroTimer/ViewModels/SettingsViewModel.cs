@@ -18,11 +18,7 @@ namespace PomodoroTimer.ViewModels
         private string soundPath;
 
         public SettingsViewModel() {
-            // get settings values
-            soundPath = Properties.Settings.Default.sound;
-            workTime = Properties.Settings.Default.workTime.ToString();
-            restTime = Properties.Settings.Default.restTime.ToString();
-            longRestTime = Properties.Settings.Default.longRestTime.ToString();
+            getValuesFromSettings();
 
             // bind commands
             Save = new RelayCommand(saveSettings);
@@ -69,26 +65,19 @@ namespace PomodoroTimer.ViewModels
                 OnPropertyChanged(nameof(SoundPath));
             }
         }
+
         ///////// COMMANDS ////////
         public ICommand Save { get; }
         public ICommand Back { get; }
         public ICommand ChooseFile { get; }
 
         ///////// METHODS ////////
-        /// <summary>
-        /// Save settings
-        /// </summary>
+
         private void saveSettings()
         {
             try
             {
-                // save all settings as a default
-                Properties.Settings.Default.workTime = int.Parse(workTime);
-                Properties.Settings.Default.restTime = int.Parse(restTime);
-                Properties.Settings.Default.longRestTime = int.Parse(longRestTime);
-                Properties.Settings.Default.sound = soundPath;
-                Properties.Settings.Default.Save();
-
+                saveCurrentSettingsAsDefault();
                 System.Windows.MessageBox.Show("Saved!");
             }
             catch (Exception ex)
@@ -96,30 +85,45 @@ namespace PomodoroTimer.ViewModels
                 System.Windows.MessageBox.Show(ex.Message);
             }           
         }
-
-        /// <summary>
-        /// Set new sound path
-        /// </summary>
+        private void saveCurrentSettingsAsDefault()
+        {
+            Properties.Settings.Default.workTime = int.Parse(workTime);
+            Properties.Settings.Default.restTime = int.Parse(restTime);
+            Properties.Settings.Default.longRestTime = int.Parse(longRestTime);
+            Properties.Settings.Default.sound = soundPath;
+            Properties.Settings.Default.Save();
+        }
         private void selectSongPath()
         {
             try
             {
-                // create file dialog
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.InitialDirectory = ".\\Sounds";
-                openFileDialog.Filter = "song(*.wav)|*.wav|All files (*.*)|*.*";
-                openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
-
-                // if file was selected
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                    SoundPath = openFileDialog.FileName;
+                SoundPath = selectFile();
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message);
             }
 
+        }
+        private string selectFile()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = ".\\Sounds";
+            openFileDialog.Filter = "song(*.wav)|*.wav|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+                return openFileDialog.FileName;
+            else
+                throw new Exception("File selection error!");
+        }
+        private void getValuesFromSettings()
+        {
+            soundPath = Properties.Settings.Default.sound;
+            workTime = Properties.Settings.Default.workTime.ToString();
+            restTime = Properties.Settings.Default.restTime.ToString();
+            longRestTime = Properties.Settings.Default.longRestTime.ToString();
         }
 
     }

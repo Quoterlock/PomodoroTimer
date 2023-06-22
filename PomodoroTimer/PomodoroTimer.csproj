@@ -84,9 +84,11 @@
     <Compile Include="Commands\StartTimer.cs" />
     <Compile Include="Commands\StopTimer.cs" />
     <Compile Include="Models\Pomodoro.cs" />
-    <Compile Include="Services\Sorter.cs" />
+    <Compile Include="Models\RecordItem.cs" />
+    <Compile Include="Models\StatisticTableItemModel.cs" />
+    <Compile Include="Services\RecordsSorter.cs" />
     <Compile Include="Services\SoundPlayer.cs" />
-    <Compile Include="Services\RecordsManager.cs" />
+    <Compile Include="Services\PomodoroRecordsStatictic.cs" />
     <Compile Include="Services\TimerManager.cs" />
     <Compile Include="Services\TimerSingleton.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />

@@ -5,31 +5,23 @@
     /// </summary>
     internal class Player
     {
-        string sound; // sound path
-        System.Media.SoundPlayer player; // player
+        string soundPath; 
+        private System.Media.SoundPlayer player;
+        private const string DEFAULT_SOUND_PATH = "C:\\Users\\Kyrpa Vladislav\\source\\repos\\PomodoroTimer\\PomodoroTimer\\Sounds\\Default.wav";
+        
         public Player() {
-            // default sound
-            sound = "C:\\Users\\Kyrpa Vladislav\\source\\repos\\PomodoroTimer\\PomodoroTimer\\Sounds\\Default.wav";
-            // new player
+            soundPath = DEFAULT_SOUND_PATH;
             player = new System.Media.SoundPlayer();
         }
 
-        /// <summary>
-        /// Play selected sound
-        /// </summary>
-        public void play()
+        public void playSelectedSound()
         {
-            player.SoundLocation = sound;
+            player.SoundLocation = soundPath;
             player.Play();
         }
-
-        /// <summary>
-        /// Set new sound path
-        /// </summary>
-        /// <param name="songPath"></param>
-        public void setSong(string songPath)
+        public void setSoundPath(string soundPath)
         {
-            sound = songPath;
+            this.soundPath = soundPath;
         }
     }
 }

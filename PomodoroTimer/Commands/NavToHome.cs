@@ -12,7 +12,7 @@ namespace PomodoroTimer.Commands
     {
         public override void Execute(object parameter)
         {
-            SingletonNavigator.Get().CurrentViewModel = new HomeViewModel();
+            SingletonNavigator.get().CurrentViewModel = new HomeViewModel();
         }
     }
 }

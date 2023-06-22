@@ -9,7 +9,7 @@ namespace PomodoroTimer.Services
     internal sealed class TimerSingleton
     {
         private static TimerManager timerManager;
-        public static TimerManager get()
+        public static TimerManager Get()
         {
             if(timerManager == null)
             {
