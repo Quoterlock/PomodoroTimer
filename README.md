@@ -1,7 +1,9 @@
 ### About
 Pomodoro Work Timer is a simple Windows application for time tracking and saving statistics locally and securely.
 
-![alt](https://github.com/[mrpainkiller]/[PomodoroTimer]/Screenshots/[master]/Screenshot_1.png?raw=true)
+![alt](Screenshots/Screenshot_1.png)
+![alt](Screenshots/Screenshot_2.png)
+![alt](Screenshots/Screenshot_3.png)
 
 ### Functionality
 - After stopping the timer before time is out, only the current duration time is saved.
